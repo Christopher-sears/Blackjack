@@ -1,0 +1,383 @@
+#deck of cards OOP
+
+class Card:
+    def __init__(self, suit, val):
+        self.suit = suit
+        self.val = val
+    
+    def functiona(self):
+        return f"{self.val} of {self.suit}"
+
+
+class Deck:
+    def __init__(self):
+            self.bank = 100
+            self.bet = 0
+            self.cards=[]
+            self.hand=[]
+            self.dealerhand=[]
+            self.outcome =[]
+            self.intro()
+            self.betontable()
+            self.build_player()
+            if sum(self.dealerhand)<22:
+                if sum(self.dealerhand)>=16:
+                    print(self.dealerhand)
+                    if sum(self.hand) <= sum(self.dealerhand):
+                        self.outcome.append(0)
+                    if sum(self.hand) > sum(self.dealerhand):
+                        self.outcome.append(1)
+            if sum(self.dealerhand)>21:
+                self.outcome.append(1)
+            if sum(self.hand)>21:
+                self.outcome.append(0)
+            
+            
+      
+        
+    def intro(self):
+        print('Welcome to casino royale, you have $100 to bet with')
+        play = input('would you like to play blackjack? Y/N ')
+        if play == 'y':
+            pass
+        
+    def betontable(self):    
+        self.bet = int(input('how much do you want to bet?'))
+        while self.bet>self.bank:
+            bet = int(input('This is more than you can bet with, please enter another amount'))
+        self.bank = self.bank - self.bet
+        print(f"{self.bank} is in the bank and {self.bet} is on the table")
+        ctn = input('Continue?')
+        if ctn == 'y':
+            pass 
+        
+        
+        
+        
+    def build_player(self):
+        import random
+        for s in ["Spades", "Clubs", "Diamonds", "Hearts"]:
+             for v in  ['Ace'] + list(range(2,11)) + ['Jack', 'Queen', 'King']:
+                self.cards.append(Card(s,v))
+        rc = random.choice(self.cards).functiona()
+        rc2 = random.choice(self.cards).functiona()
+        rcd = random.choice(self.cards).functiona()
+        
+        print(f'You have been dealt the {rc} and {rc2}')
+        print(f'dealer has a {rcd} face up')
+        #Player's 1st card
+        if 'Ace' in rc:
+            self.hand.append(11)
+        elif '2' in rc:
+            self.hand.append(2)
+        elif '3' in rc:
+            self.hand.append(3)
+        elif '4' in rc:
+            self.hand.append(4)
+        elif '5' in rc:
+            self.hand.append(5)
+        elif '6' in rc:
+            self.hand.append(6)
+        elif '7' in rc:
+            self.hand.append(7)
+        elif '8' in rc:
+            self.hand.append(8)
+        elif '9' in rc:
+            self.hand.append(9)
+        elif '10' in rc:
+            self.hand.append(10)
+        elif 'Jack' in rc:
+            self.hand.append(10)
+        elif 'Queen' in rc:
+            self.hand.append(10)
+        #Player's 2nd card
+        if 'King' in rc2:
+            self.hand.append(10)
+        elif 'Ace' in rc2:
+            self.hand.append(11)
+        elif '2' in rc2:
+            self.hand.append(2)
+        elif '3' in rc2:
+            self.hand.append(3)
+        elif '4' in rc2:
+            self.hand.append(4)
+        elif '5' in rc2:
+            self.hand.append(5)
+        elif '6' in rc2:
+            self.hand.append(6)
+        elif '7' in rc2:
+            self.hand.append(7)
+        elif '8' in rc2:
+            self.hand.append(8)
+        elif '9' in rc2:
+            self.hand.append(9)
+        elif '10' in rc2:
+            self.hand.append(10)
+        elif 'Jack' in rc2:
+            self.hand.append(10)
+        elif 'Queen' in rc2:
+            self.hand.append(10)
+        elif 'King' in rc2: 
+            self.hand.append(10)
+            
+        #Dealer's 1st card
+        if 'Ace' in rcd:
+            self.dealerhand.append(11)
+        elif '2' in rcd:
+            self.dealerhand.append(2)
+        elif '3' in rcd:
+            self.dealerhand.append(3)
+        elif '4' in rcd:
+            self.dealerhand.append(4)
+        elif '5' in rcd:
+            self.dealerhand.append(5)
+        elif '6' in rcd:
+            self.dealerhand.append(6)
+        elif '7' in rcd:
+            self.dealerhand.append(7)
+        elif '8' in rcd:
+            self.dealerhand.append(8)
+        elif '9' in rcd:
+            self.dealerhand.append(9)
+        elif '10' in rcd:
+            self.dealerhand.append(10)
+        elif 'Jack' in rcd:
+            self.dealerhand.append(10)
+        elif 'Queen' in rcd:
+            self.dealerhand.append(10)
+        elif 'King' in rcd:
+            self.dealerhand.append(10)
+        print(self.hand)
+        print(self.dealerhand)
+        A = input('Do you want hit (H) or stand(S)?')
+        while sum(self.hand)<22:
+            if A == 's':
+                    while sum(self.dealerhand)<22 and sum(self.dealerhand)<=16:
+                        rcd2 = random.choice(self.cards).functiona() 
+                        print(f'Dealer plays {rcd2}')
+                        print(self.hand)
+                        print(self.dealerhand)
+                        if 'Ace' in rcd and ((sum(self.dealerhand)+11)<22):
+                            self.dealerhand.append(11)
+                        elif 'Ace' in rcd and ((sum(self.dealerhand)+11)>22):
+                            self.dealerhand.pop(0)
+                            self.dealerhand.append(1)
+                        elif 'Ace' in rcd2 and ((sum(self.dealerhand)+11)>22):
+                            self.dealerhand.pop(1)
+                            self.dealerhand.append(1)  
+                        elif '2' in rcd2:
+                            self.dealerhand.append(2)
+                        elif '3' in rcd2:
+                            self.dealerhand.append(3)
+                        elif '4' in rcd2:
+                            self.dealerhand.append(4)
+                        elif '5' in rcd2:
+                            self.dealerhand.append(5)
+                        elif '6' in rcd2:
+                            self.dealerhand.append(6)
+                        elif '7' in rcd2:
+                            self.dealerhand.append(7)
+                        elif '8' in rcd2:
+                            self.dealerhand.append(8)
+                        elif '9' in rcd2:
+                            self.dealerhand.append(9)
+                        elif '10' in rcd2:
+                            self.dealerhand.append(10)
+                        elif 'Jack' in rcd2:
+                            self.dealerhand.append(10)
+                        elif 'Queen' in rcd2:
+                            self.dealerhand.append(10)
+                        elif 'King' in rcd2:
+                            self.dealerhand.append(10)
+                        if sum(self.dealerhand)>=22:
+                            print(self.dealerhand)
+                            print('Dealer Bust')
+                            self.outcome = 1
+                            break
+                        if sum(self.dealerhand)<22:
+                            if sum(self.dealerhand)>=16:
+                                print(self.dealerhand)
+                                if sum(self.hand) <= sum(self.dealerhand):
+                                    self.outcome.append(0)
+                                if sum(self.hand) > sum(self.dealerhand):
+                                    self.outcome.append(1)
+                        elif sum(self.dealerhand)>21:
+                            self.outcome.append(1)
+                        elif sum(self.hand)>21:
+                            self.outcome.append(0)   
+                        
+    
+            elif A == 'h':
+                rc3 = random.choice(self.cards).functiona()
+                print(f'You are dealt the {rc3}')
+                if 'Ace' in rc and ((sum(self.hand)+11)<22):
+                    self.hand.append(11)
+                elif 'Ace' in rc and ((sum(self.hand)+11)>22):
+                    self.hand.pop(0)
+                    self.hand.append(1)
+                elif 'Ace' in rc2 and ((sum(self.hand)+11)>22):
+                    self.hand.pop(1) 
+                    self.hand.append(1)
+                elif 'Ace' in rc3 and ((sum(self.hand)+11)>22):
+                    self.hand.pop(2)
+                    self.hand.append(1)
+                elif '2' in rc3:
+                    self.hand.append(2)
+                elif '3' in rc3:
+                    self.hand.append(3)
+                elif '4' in rc3:
+                    self.hand.append(4)
+                elif '5' in rc3:
+                    self.hand.append(5)
+                elif '6' in rc3:
+                    self.hand.append(6)
+                elif '7' in rc3:
+                    self.hand.append(7)
+                elif '8' in rc3:
+                    self.hand.append(8)
+                elif '9' in rc3:
+                    self.hand.append(9)
+                elif '10' in rc3:
+                    self.hand.append(10)
+                elif 'Jack' in rc3:
+                    self.hand.append(10)
+                elif 'Queen' in rc3:
+                    self.hand.append(10)
+                elif 'King' in rc3:
+                    self.hand.append(10)
+                print(self.hand)
+                print(self.dealerhand)
+
+                if sum(self.hand)>21:
+                    print('Player bust')
+                    print(self.hand)
+                    print(self.dealerhand)
+                    self.outcome = 0
+                    break
+                if sum(self.dealerhand)<22:
+                    if sum(self.dealerhand)>=16:
+                        print(self.dealerhand)
+                        if sum(self.hand) <= sum(self.dealerhand):
+                            self.outcome.append(0)
+                        if sum(self.hand) > sum(self.dealerhand):
+                            self.outcome.append(1)
+                elif sum(self.dealerhand)>21:
+                        self.outcome.append(1)
+                elif sum(self.hand)>21:
+                        self.outcome.append(0)      
+                print(self.hand)
+                print(self.dealerhand)
+                A = input('Do you want hit (H) or stand(S)?')
+                print(A)
+                
+                if A == 'h':
+                    continue
+                if A == 's':
+                    while sum(self.dealerhand)<22 and sum(self.dealerhand)<=16 and A == 's' or 'S':
+                        rcd2 = random.choice(self.cards).functiona() 
+                        print(f'Dealer plays {rcd2}')
+                        print(self.hand)
+                        print(self.dealerhand)
+                        if 'Ace' in rcd and ((sum(self.dealerhand)+11)<22):
+                            self.dealerhand.append(11)
+                        elif 'Ace' in rcd and ((sum(self.dealerhand)+11)>22):
+                            self.dealerhand.pop(0)
+                            self.dealerhand.append(1)
+                        elif 'Ace' in rcd2 and ((sum(self.dealerhand)+11)>22):
+                            self.dealerhand.pop(1)
+                            self.dealerhand.append(1)         
+                        elif '2' in rcd2:
+                            self.dealerhand.append(2)
+                        elif '3' in rcd2:
+                            self.dealerhand.append(3)
+                        elif '4' in rcd2:
+                            self.dealerhand.append(4)
+                        elif '5' in rcd2:
+                            self.dealerhand.append(5)
+                        elif '6' in rcd2:
+                            self.dealerhand.append(6)
+                        elif '7' in rcd2:
+                            self.dealerhand.append(7)
+                        elif '8' in rcd2:
+                            self.dealerhand.append(8)
+                        elif '9' in rcd2:
+                            self.dealerhand.append(9)
+                        elif '10' in rcd2:
+                            self.dealerhand.append(10)
+                        elif 'Jack' in rcd2:
+                            self.dealerhand.append(10)
+                        elif 'Queen' in rcd2:
+                            self.dealerhand.append(10)
+                        elif 'King' in rcd2:
+                            self.dealerhand.append(10) 
+                        if sum(self.dealerhand)>=22:
+                            print(self.dealerhand)
+                            print( 'Dealer Bust')
+                            self.outcome.append(1)
+                            break
+                            
+                        if sum(self.dealerhand)<22:
+                            if sum(self.dealerhand)>=16:
+                                print(self.dealerhand)
+                                if sum(self.hand) <= sum(self.dealerhand):
+                                    self.outcome.append(0)
+                                if sum(self.hand) > sum(self.dealerhand):
+                                    self.outcome.append(1)
+                        elif sum(self.dealerhand)>21:
+                            self.outcome.append(1)
+                        elif sum(self.hand)>21:
+                            self.outcome.append(0)  
+                            
+                pass
+                    
+        
+    def winner(self):
+        if sum(self.outcome) == 1:
+            print ('Player Wins')
+            self.bank = self.bank + self.bet*2
+            print(self.bank)
+            
+        elif sum(self.outcome) == 0:
+            print ('Dealer Wins')
+            print(self.bank)
+            
+        print (self.outcome)
+        
+        question = input('Do you want to play again?')
+        if question == 'y':
+            self.outcome.clear()
+            self.dealerhand.clear()
+            self.hand.clear()
+            self.bet = 0
+            while question == 'y':
+                self.betontable()
+                self.build_player()
+                if sum(self.dealerhand)<22:
+                    if sum(self.dealerhand)>=16:
+                        print(self.dealerhand)
+                        if sum(self.hand) <= sum(self.dealerhand):
+                            self.outcome.append(0)
+                        if sum(self.hand) > sum(self.dealerhand):
+                            self.outcome.append(1)
+                elif sum(self.dealerhand)>21:
+                    self.outcome.append(1)
+                elif sum(self.hand)>21:
+                    self.outcome.append(0)
+                self.winner()
+                question = input('Do you want to play again?')
+            
+        if question == 'n':
+            pass
+
+        
+            
+            
+        
+        
+        # self.cards.insert
+                
+deck = Deck()
+deck.winner()
+
+print(self.outcome)             
+           
