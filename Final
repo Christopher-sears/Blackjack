@@ -1,0 +1,911 @@
+#deck of cards OOP
+
+class Card:
+    def __init__(self, suit, val):
+        self.suit = suit
+        self.val = val
+    
+    def functiona(self):
+        return f"{self.val} of {self.suit}"
+
+
+class Deck:
+    def __init__(self):
+            self.bank = 100
+            self.bet = 0
+            self.cards=[]
+            self.hand=[]
+            self.dealerhand=[]
+            self.outcome =[]
+            self.intro()
+            self.betontable()
+            self.build_player()
+            self.winner()
+            
+            
+            
+      
+        
+    def intro(self):
+        print('Welcome to casino royale, you have $100 to bet with')
+        play = input('would you like to play blackjack? Y/N ')
+        if play == 'y':
+            pass
+        else:
+            play = input('would you like to play blackjack? Y/N ')
+        
+    def betontable(self):    
+        
+        while True:
+            try: 
+                self.bet = int(input('how much do you want to bet?'))
+            except ValueError:
+                print('Please enter a numerical value!')
+            else:
+                if self.bet>self.bank:
+                    print('This is more than you can bet with, please enter another amount')
+                else:
+                    break
+        self.bank = self.bank - self.bet
+        print(f"${self.bank} is in the bank and ${self.bet} is on the table")
+        ctn = input('Continue?')
+        if ctn == 'y':
+            pass 
+        
+        
+        
+        
+    def build_player(self):
+        import random
+        for s in ["Spades", "Clubs", "Diamonds", "Hearts"]:
+             for v in  ['Ace'] + list(range(2,11)) + ['Jack', 'Queen', 'King']:
+                self.cards.append(Card(s,v))
+        rc = random.choice(self.cards).functiona()
+        rc2 = random.choice(self.cards).functiona()
+        rcd = random.choice(self.cards).functiona()
+        
+        print(f'You have been dealt the {rc} and {rc2}')
+        print(f'dealer has a {rcd} face up')
+        #Player's 1st card
+        if 'Ace' in rc:
+            self.hand.append(11)
+        elif '2' in rc:
+            self.hand.append(2)
+        elif '3' in rc:
+            self.hand.append(3)
+        elif '4' in rc:
+            self.hand.append(4)
+        elif '5' in rc:
+            self.hand.append(5)
+        elif '6' in rc:
+            self.hand.append(6)
+        elif '7' in rc:
+            self.hand.append(7)
+        elif '8' in rc:
+            self.hand.append(8)
+        elif '9' in rc:
+            self.hand.append(9)
+        elif '10' in rc:
+            self.hand.append(10)
+        elif 'Jack' in rc:
+            self.hand.append(10)
+        elif 'Queen' in rc:
+            self.hand.append(10)
+        elif 'King' in rc:
+            self.hand.append(10)
+            #Player's 2nd card
+        if 'Ace' in rc2:
+             #Zero previous Aces at value 11
+            if self.hand.count(11)==0:
+                #Adding 1 to the Player's hand
+                if (sum(self.hand)+1)>21:
+                    print('Player bust')
+                    print(f'Player Score:{sum(self.hand)}')
+                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                    self.outcome.append('0')
+                #Adding ace value of 11 to the Player's hand
+                elif (sum(self.hand)+11)<=21:
+                    self.hand.append(11)
+                #Adding Ace value of 1 to the Player's hand
+                elif (sum(self.hand)+11)>21:
+                    self.hand.append(1)
+
+            #One previous Ace at value 11
+            elif self.hand.count(11)==1 in self.hand:
+                if (sum(self.hand)+1)<=21:
+                    self.append(1)
+
+                elif (sum(self.hand)+1)>21:
+                    self.hand.pop(self.hand.index(11))
+                    self.hand.append(1)
+                    self.hand.append(1)
+                    if sum(self.hand)>21:
+                        print('Player bust')
+                        print(f'Player Score:{sum(self.hand)}')
+                        print(f'Dealer Score:{sum(self.dealerhand)}')
+                        self.outcome.append('0')
+                        
+
+        elif '2' in rc2:
+            self.hand.append(2)
+        elif '3' in rc2:
+            self.hand.append(3)
+        elif '4' in rc2:
+            self.hand.append(4)
+        elif '5' in rc2:
+            self.hand.append(5)
+        elif '6' in rc2:
+            self.hand.append(6)
+        elif '7' in rc2:
+            self.hand.append(7)
+        elif '8' in rc2:
+            self.hand.append(8)
+        elif '9' in rc2:
+            self.hand.append(9)
+        elif '10' in rc2:
+            self.hand.append(10)
+        elif 'Jack' in rc2:
+            self.hand.append(10)
+        elif 'Queen' in rc2:
+            self.hand.append(10)
+        elif 'King' in rc2: 
+            self.hand.append(10)
+        
+            
+        #Dealer's 1st card
+        if 'Ace' in rcd:
+            self.dealerhand.append(11)
+        elif '2' in rcd:
+            self.dealerhand.append(2)
+        elif '3' in rcd:
+            self.dealerhand.append(3)
+        elif '4' in rcd:
+            self.dealerhand.append(4)
+        elif '5' in rcd:
+            self.dealerhand.append(5)
+        elif '6' in rcd:
+            self.dealerhand.append(6)
+        elif '7' in rcd:
+            self.dealerhand.append(7)
+        elif '8' in rcd:
+            self.dealerhand.append(8)
+        elif '9' in rcd:
+            self.dealerhand.append(9)
+        elif '10' in rcd:
+            self.dealerhand.append(10)
+        elif 'Jack' in rcd:
+            self.dealerhand.append(10)
+        elif 'Queen' in rcd:
+            self.dealerhand.append(10)
+        elif 'King' in rcd:
+            self.dealerhand.append(10)
+        print(f'Player Score:{sum(self.hand)}')
+        print(f'Dealer Score:{sum(self.dealerhand)}')
+        A = input('Do you want hit (H) or stand(S)?')
+        while sum(self.hand)<22:
+            if A == 's':
+                    while sum(self.dealerhand)<22 and sum(self.dealerhand)<=16:
+                        rcd2 = random.choice(self.cards).functiona() 
+                        print(f'Dealer plays {rcd2}')
+                        if 'Ace' in rcd2:
+                             #Zero previous Aces at value 11
+                            if self.dealerhand.count(11)==0:
+                                #Adding 1 to the Player's hand
+                                if (sum(self.dealerhand)+1)>21:
+                                    print('Dealer bust')
+                                    self.outcome.append('1')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    
+                                #Adding ace value of 11 to the Player's hand
+                                elif (sum(self.dealerhand)+11)<=21:
+                                    self.dealerhand.append(11)
+                                    continue
+                                #Adding Ace value of 1 to the Player's hand
+                                elif (sum(self.dealerhand)+11)>21:
+                                    self.dealerhand.append(1)
+                                    continue
+
+                            #One previous Ace at value 11
+                            elif self.dealerhand.count(11)==1 in self.dealerhand:
+                                if (sum(self.dealerhand)+1)<=21:
+                                    self.dealerhand.append(1)
+                
+                                elif (sum(self.hand)+1)>21:
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(1)
+                                    if sum(self.dealerhand)>21:
+                                        print('Dealer bust')
+                                        print(f'Player Score:{sum(self.hand)}')
+                                        print(f'Dealer Score:{sum(self.dealerhand)}')
+                                        self.outcome.append('1')
+                                        break
+
+                        elif '2' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+2)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(2)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if sum(self.dealerhand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(2)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif '3' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+3)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(3)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.dealerhand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.hand.append(3)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif '4' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+4)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(4)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.hand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(4)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif '5' in rcd2:
+                            if 11 in self.hand:
+                                if (sum(self.dealerhand)+5)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(5)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.hand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(5)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif '6' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.hand)+6)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(6)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.dealerhand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(6)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif '7' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+7)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(7)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.dealerhand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(7)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif '8' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+8)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(8)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.hand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(8)
+                                if  sum(self.hand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif '9' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+9)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(9)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.hand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(9)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif '10' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+10)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(10)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.dealerhand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(10)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif 'Jack' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+10)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(10)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.dealerhand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(10)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif 'Queen' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+10)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(10)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.dealerhand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(10)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                        elif 'King' in rcd2:
+                            if 11 in self.dealerhand:
+                                if (sum(self.dealerhand)+10)>21:
+                                    self.dealerhand.append(1)
+                                    self.dealerhand.append(10)
+                                    self.dealerhand.pop(self.dealerhand.index(11))
+                            if  sum(self.hand)>21:
+                                print('Dealer bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('1')
+                                break
+                            else:
+                                self.dealerhand.append(10)
+                                if  sum(self.dealerhand)>21:
+                                    print('Dealer bust')
+                                    print(f'Player Score:{sum(self.hand)}')
+                                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                                    self.outcome.append('1')
+                                    break
+                    print(f'Player Score:{sum(self.hand)}')
+                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                    if sum(self.dealerhand)<22:
+                        if sum(self.hand) < sum(self.dealerhand):
+                            self.outcome.append('0')
+                            break
+                        elif sum(self.hand) == sum(self.dealerhand):
+                            self.outcome.append('3')
+                            break
+                        elif sum(self.hand) > sum(self.dealerhand):
+                            self.outcome.append('1')
+                            break
+                    elif sum(self.dealerhand)>21:
+                            self.outcome.append('1')
+                            break
+                    elif sum(self.hand)>21:
+                            self.outcome.append('0') 
+                            break
+                    print(f'Player Score:{sum(self.hand)}')
+                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                    pass
+    
+            if A == 'h':
+                rc3 = random.choice(self.cards).functiona()
+                print(f'You are dealt the {rc3}')
+
+                if 'Ace' in rc3:
+                     #Zero previous Aces at value 11
+                    if self.hand.count(11)==0:
+                        #Adding 1 to the Player's hand
+                        if (sum(self.hand)+1)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                        #Adding ace value of 11 to the Player's hand
+                        elif (sum(self.hand)+11)<=21:
+                            self.hand.append(11)
+                        #Adding Ace value of 1 to the Player's hand
+                        elif (sum(self.hand)+11)>21:
+                            self.hand.append(1)
+                    
+                    #One previous Ace at value 11
+                    elif self.hand.count(11)==1 in self.hand:
+                        if (sum(self.hand)+1)<=21:
+                            self.append(1)
+                           
+                        elif (sum(self.hand)+1)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(1)
+                            if sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                            
+            
+                        
+                elif '2' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+2)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(2)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(2)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif '3' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+3)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(3)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(3)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif '4' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+4)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(4)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(4)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif '5' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+5)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(5)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(5)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif '6' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+6)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(6)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(6)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif '7' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+7)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(7)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(7)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif '8' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+8)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(8)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(8)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif '9' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+9)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(9)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(9)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif '10' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+10)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(10)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(10)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif 'Jack' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+10)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(10)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(10)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif 'Queen' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+10)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(10)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(10)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                elif 'King' in rc3:
+                    if 11 in self.hand:
+                        if (sum(self.hand)+10)>21:
+                            self.hand.pop(self.hand.index(11))
+                            self.hand.append(1)
+                            self.hand.append(10)
+                            if  sum(self.hand)>21:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}')
+                                self.outcome.append('0')
+                                break
+                    else:
+                        self.hand.append(10)
+                        if  sum(self.hand)>21:
+                            print('Player bust')
+                            print(f'Player Score:{sum(self.hand)}')
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            self.outcome.append('0')
+                            break
+                print(f'Player Score:{sum(self.hand)}')
+                print(f'Dealer Score:{sum(self.dealerhand)}')
+                    
+                A = input('Do you want hit (H) or stand(S)?')
+                print(A)
+                
+                if A == 'h':
+                    continue
+                if A == 's':
+                    while sum(self.dealerhand)<22 and sum(self.dealerhand)<=16:
+                        rcd2 = random.choice(self.cards).functiona() 
+                        print(f'Dealer plays {rcd2}')
+                        print(f'Player Score:{sum(self.hand)}')
+                        print(f'Dealer Score:{sum(self.dealerhand)}')
+                        if 'Ace' in rcd2:
+                            if (sum(self.hand)+11)>21:
+                                if self.hand.count(11)>1 in self.hand:
+                                    for x in self.hand:
+                                        if x == 11:
+                                            self.hand.pop(index(x))
+                                            self.hand.append(1)
+                                
+                                    
+                            elif (sum(self.hand)+11)<=21:
+                                self.hand.append(11)
+                            elif (sum(self.hand)+1)==22:
+                                print('Player bust')
+                                print(f'Player Score:{sum(self.hand)}')
+                                print(f'Dealer Score:{sum(self.dealerhand)}') 
+
+                        if self.hand.count(11)==1 in self.hand:
+                            if (sum(self.hand)+11)>21:
+                                if self.hand.count(11)>1 in self.hand:
+                                    for x in self.hand:
+                                        if x == 11:
+                                            self.hand.pop(index(x))
+                                            self.hand.append(1)
+                        elif '2' in rcd2:
+                            self.dealerhand.append(2)
+                        elif '3' in rcd2:
+                            self.dealerhand.append(3)
+                        elif '4' in rcd2:
+                            self.dealerhand.append(4)
+                        elif '5' in rcd2:
+                            self.dealerhand.append(5)
+                        elif '6' in rcd2:
+                            self.dealerhand.append(6)
+                        elif '7' in rcd2:
+                            self.dealerhand.append(7)
+                        elif '8' in rcd2:
+                            self.dealerhand.append(8)
+                        elif '9' in rcd2:
+                            self.dealerhand.append(9)
+                        elif '10' in rcd2:
+                            self.dealerhand.append(10)
+                        elif 'Jack' in rcd2:
+                            self.dealerhand.append(10)
+                        elif 'Queen' in rcd2:
+                            self.dealerhand.append(10)
+                        elif 'King' in rcd2:
+                            self.dealerhand.append(10) 
+                        if sum(self.dealerhand)>=22:
+                            print(f'Dealer Score:{sum(self.dealerhand)}')
+                            print( 'Dealer Bust')
+                            self.outcome.append('1')
+                        if sum(self.dealerhand)<22:
+                            if sum(self.dealerhand)>=16:
+                                if sum(self.hand) < sum(self.dealerhand):
+                                    self.outcome.append('0')
+                                    break
+                                elif sum(self.hand) == sum(self.dealerhand):
+                                    self.outcome.append('3')
+                                    break
+                                if sum(self.hand) > sum(self.dealerhand):
+                                    self.outcome.append('1')
+                                    break
+                        if sum(self.dealerhand)>21:
+                            self.outcome.append('1')
+                            break
+                        if sum(self.hand)>21:
+                            self.outcome.append('0')
+                            break
+                            
+            if sum(self.dealerhand)<22:
+                if sum(self.dealerhand)>=16:
+                    print(f'Dealer Score:{sum(self.dealerhand)}')
+                    if sum(self.hand) < sum(self.dealerhand):
+                        self.outcome.append('0')
+                    elif sum(self.hand) == sum(self.dealerhand):
+                        self.outcome.append('3')
+                        break    
+                    if sum(self.hand) > sum(self.dealerhand):
+                        self.outcome.append('1')
+            elif sum(self.dealerhand)>21:
+                    self.outcome.append('1')
+            elif sum(self.hand)>21:
+                    self.outcome.append('0')   
+
+                            
+            pass
+                    
+        
+    def winner(self):
+        if '1' in self.outcome:
+            print ('Player Wins')
+            self.bank = self.bank + self.bet*2
+            print(f'You have ${self.bank} in the bank')
+            
+        elif '0' in self.outcome:
+            print ('Dealer Wins')
+            print(f'You have ${self.bank} in the bank')
+            
+        elif '3' in self.outcome:
+            print ('Push')
+            self.bank = self.bank + self.bet
+            print(f'You have ${self.bank} in the bank')
+            
+        
+    
+        
+    def repeat(self):
+        question = input('Do you want to play again?')
+        if question == 'y':
+            while question == 'y':
+                self.outcome.clear()
+                self.dealerhand.clear()
+                self.hand.clear()
+                self.bet = 0
+                self.betontable()
+                self.build_player()
+                self.winner()
+                question = input('Do you want to play again?')
+            
+        if question == 'n':
+            print('Thank you for playing')
+            pass
+
+            
+            
+            
+        
+        
+        
+        # self.cards.insert
+                
+deck = Deck()
+deck.repeat()
